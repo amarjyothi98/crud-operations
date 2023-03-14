@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Icon, Label, Menu, Table } from 'semantic-ui-react'
+import { Button, Label, Table } from 'semantic-ui-react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 
@@ -14,11 +14,27 @@ export default function Read() {
       })
     })
 
-    const setID = (id) => {
-        console.log(id);
+    const setData = (id, firstName, lastName) => {
+        // console.log(id);
         localStorage.setItem('ID', id)
+        
+        localStorage.setItem('firstName', firstName)
+        localStorage.setItem('lastName', lastName)
     }
     
+    const getData = () => {
+        axios.get('https://640c44e5a3e07380e8f04e21.mockapi.io/curd')
+        .then((getData) => {
+          setApiData(getData.data);
+        })
+    }
+
+    const onDelete = (id) => {
+        axios.delete(`https://640c44e5a3e07380e8f04e21.mockapi.io/curd/${id}`)
+        .then(() => {
+            getData(); 
+        })
+    }
 
   return (
     <div>
@@ -46,13 +62,13 @@ export default function Read() {
                             <Table.Cell>{data.lastName}</Table.Cell>
                             <Table.Cell>
                                 <Link to='/update' >
-                                    <Button color='green' onClick={() => setID(data.id)} >Update</Button>
+                                    <Button color='green' onClick={() => setData(data.id, data.firstName, data.lastName)} >Update</Button>
                                 </Link>
                             </Table.Cell>
                             <Table.Cell> 
-                                <Link to='/delete' > 
-                                   <Button color='red'>Delete</Button>
-                                </Link>
+                               
+                                   <Button color='red' onClick={() => onDelete(data.id)} >Delete</Button>
+                                
                             </Table.Cell>
                         </Table.Row> 
                     )

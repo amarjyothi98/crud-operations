@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { Form, Button } from 'semantic-ui-react'
 import axios from 'axios'; 
+// import { useHistory } from 'react-router'
 
 export default function Create() {
+
+    // let history = useHistory(); 
 
     const [firstName, setFirstName] = useState(''); 
     
@@ -16,8 +19,11 @@ export default function Create() {
             firstName, 
             lastName
         })
+        // .then(() => {
+        //     history.push('/read'); 
+        // })
     }
-
+            
   return (
     <div>
         <Form>
